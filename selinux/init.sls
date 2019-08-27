@@ -86,6 +86,16 @@ selinux_fcontext_{{ file }}_absent:
     - unless: if (semanage fcontext --list | grep -q "^{{ file }} "); then /bin/false; else /bin/true; fi
 {% endfor %}
 
+{% for rc in salt['pillar.get']('selinux:restoreconf', []) %}
+selinux_restoreconf_{{ rc.name }}:
+  cmd:
+    - run
+    - name: restorecon -v{%- if rc.recursive -%}R{%- endif-%}{%- if rc.force -%}F{%- endif-%} {{rc.name}}
+    - require:
+      - pkg: selinux
+
+{% endfor %}
+
 {% for k, v in salt['pillar.get']('selinux:modules', {}).items() %}
   {% set v_name = v.name|default(k) %}
 

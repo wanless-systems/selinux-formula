@@ -20,6 +20,13 @@ selinux:
   fcontext.absent:
     - /var/www/test.org/src(/.*)?
     - /var/www/test.org/tests
+
+  restoreconf:
+    -
+      name: /var/www/
+      recursive: true
+      force: true
+
   modules:
     gitlabsshkeygen:
       version: 1.0
