@@ -90,7 +90,7 @@ selinux_fcontext_{{ file }}_absent:
 selinux_restoreconf_{{ rc.name }}:
   cmd:
     - run
-    - name: restorecon -v{%- if rc.recursive -%}R{%- endif-%}{%- if rc.force -%}F{%- endif-%} {{rc.name}}
+    - name: restorecon -v{%- if rc.recursive -%}R{%- endif-%}{%- if rc.force -%}F{%- endif %} {{rc.name}}
     - require:
       - pkg: selinux
 
